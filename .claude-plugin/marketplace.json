@@ -1,0 +1,22 @@
+{
+  "metadata": {
+    "name": "kaos-agent-skills",
+    "description": "Official agent skills for the KAOS Agentic Operating System — AI-powered Kubernetes infrastructure management on KubeCore.",
+    "homepage": "https://kaos.kubecore.eu",
+    "repository": "https://github.com/kaos-io/agent-skills",
+    "author": {
+      "name": "KubeCore / KAOS",
+      "url": "https://kaos.kubecore.eu"
+    }
+  },
+  "plugins": [
+    {
+      "name": "kaos-prd-next",
+      "description": "KAOS PRD skill — generate structured Product Requirements Documents for KAOS platform features, agentic infrastructure capabilities, and Kubernetes-native workloads.",
+      "skills": ["skills/kaos-prd-next"],
+      "category": "productivity",
+      "tags": ["prd", "product", "kaos", "kubernetes", "kubecore"],
+      "strict": false
+    }
+  ]
+}
