@@ -11,11 +11,66 @@
   },
   "plugins": [
     {
+      "name": "kaos-prd-skills",
+      "description": "Full KAOS PRD lifecycle — create, start, advance, track progress, capture decisions, and complete Product Requirements Documents for KAOS platform features.",
+      "skills": [
+        "skills/kaos-prd-create",
+        "skills/kaos-prd-start",
+        "skills/kaos-prd-next",
+        "skills/kaos-prd-update-progress",
+        "skills/kaos-prd-update-decisions",
+        "skills/kaos-prd-complete"
+      ],
+      "category": "productivity",
+      "tags": ["prd", "product", "kaos", "kubernetes", "kubecore", "gitops"],
+      "strict": false
+    },
+    {
+      "name": "kaos-prd-create",
+      "description": "Create a new KAOS PRD from a feature idea or design conversation.",
+      "skills": ["skills/kaos-prd-create"],
+      "category": "productivity",
+      "tags": ["prd", "kaos", "create"],
+      "strict": false
+    },
+    {
+      "name": "kaos-prd-start",
+      "description": "Begin active implementation on a validated KAOS PRD — validates readiness, checks platform state, creates feature branch.",
+      "skills": ["skills/kaos-prd-start"],
+      "category": "productivity",
+      "tags": ["prd", "kaos", "implementation"],
+      "strict": false
+    },
+    {
       "name": "kaos-prd-next",
-      "description": "KAOS PRD skill — generate structured Product Requirements Documents for KAOS platform features, agentic infrastructure capabilities, and Kubernetes-native workloads.",
+      "description": "Identify the single highest-priority task to work on for a KAOS PRD — checks platform prerequisites and designs implementation approach.",
       "skills": ["skills/kaos-prd-next"],
       "category": "productivity",
-      "tags": ["prd", "product", "kaos", "kubernetes", "kubecore"],
+      "tags": ["prd", "kaos", "task", "next"],
+      "strict": false
+    },
+    {
+      "name": "kaos-prd-update-progress",
+      "description": "Record completed work and verify acceptance criteria for a KAOS PRD — updates AC, threat, and question statuses.",
+      "skills": ["skills/kaos-prd-update-progress"],
+      "category": "productivity",
+      "tags": ["prd", "kaos", "progress", "acceptance-criteria"],
+      "strict": false
+    },
+    {
+      "name": "kaos-prd-update-decisions",
+      "description": "Capture design decisions made during KAOS PRD implementation — validates against kaos:schema and keeps PRD as source of truth.",
+      "skills": ["skills/kaos-prd-update-decisions"],
+      "category": "productivity",
+      "tags": ["prd", "kaos", "decisions", "architecture"],
+      "strict": false
+    },
+    {
+      "name": "kaos-prd-complete",
+      "description": "Finalise a completed or close an abandoned KAOS PRD — archives the file, updates and closes the GitHub issue.",
+      "skills": ["skills/kaos-prd-complete"],
+      "category": "productivity",
+      "tags": ["prd", "kaos", "complete", "archive"],
       "strict": false
     }
   ]
