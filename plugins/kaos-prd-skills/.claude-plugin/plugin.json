@@ -1,0 +1,11 @@
+{
+  "name": "kaos-prd-skills",
+  "version": "1.0.0",
+  "description": "Full KAOS PRD lifecycle — create, start, advance, track progress, capture decisions, and complete Product Requirements Documents.",
+  "author": {
+    "name": "KubeCore",
+    "email": "hello@kaos.kubecore.eu"
+  },
+  "homepage": "https://kaos.kubecore.eu",
+  "license": "Apache-2.0"
+}
