@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../manifest.schema.json",
+  "name": "kaos-prd-complete",
+  "type": "skill",
+  "version": "1.0.0",
+  "entry": "SKILL.md",
+  "description": "Finalise an implemented PRD or close one that is no longer needed, and archive it.",
+  "produces": {
+    "chunk_types": ["acceptance-criterion"],
+    "label": "PRD",
+    "output_path": "knowledge/prds/done/"
+  },
+  "consumes": {
+    "chunk_types": ["acceptance-criterion", "feature-requirement", "threat"],
+    "tools": ["kaos:list", "kaos:get"]
+  },
+  "dependencies": {
+    "skills": ["kaos-prd-update-progress@^1.0.0"]
+  },
+  "tags": ["prd", "product", "completion", "archive", "kaos"],
+  "author": "kaos-io",
+  "license": "Apache-2.0"
+}

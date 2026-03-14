@@ -1,0 +1,268 @@
+{
+  "name": "kaos-agent-skills",
+  "description": "Official agentic artifact registry for the KAOS platform.",
+  "generated_at": "2026-03-15T18:56:46Z",
+  "artifacts": [
+    {
+      "name": "kaos-pr-summary",
+      "type": "skill",
+      "version": "1.0.0",
+      "path": "plugins/kaos-prd-skills/skills/kaos-pr-summary",
+      "entry": "SKILL.md",
+      "description": "Generate a structured PR summary for KAOS platform changes with PRD alignment and knowledge capture.",
+      "tags": [
+        "pull-request",
+        "kaos",
+        "documentation",
+        "knowledge-capture"
+      ],
+      "produces": {
+        "chunk_types": [],
+        "label": "",
+        "output_path": ""
+      },
+      "consumes": {
+        "chunk_types": [
+          "architectural-decision",
+          "constraint",
+          "acceptance-criterion"
+        ],
+        "tools": [
+          "kaos:schema",
+          "kaos:list",
+          "kaos:validate"
+        ]
+      },
+      "dependencies": {}
+    },
+    {
+      "name": "kaos-prd-complete",
+      "type": "skill",
+      "version": "1.0.0",
+      "path": "plugins/kaos-prd-skills/skills/kaos-prd-complete",
+      "entry": "SKILL.md",
+      "description": "Finalise an implemented PRD or close one that is no longer needed, and archive it.",
+      "tags": [
+        "prd",
+        "product",
+        "completion",
+        "archive",
+        "kaos"
+      ],
+      "produces": {
+        "chunk_types": [
+          "acceptance-criterion"
+        ],
+        "label": "PRD",
+        "output_path": "knowledge/prds/done/"
+      },
+      "consumes": {
+        "chunk_types": [
+          "acceptance-criterion",
+          "feature-requirement",
+          "threat"
+        ],
+        "tools": [
+          "kaos:list",
+          "kaos:get"
+        ]
+      },
+      "dependencies": {
+        "skills": [
+          "kaos-prd-update-progress@^1.0.0"
+        ]
+      }
+    },
+    {
+      "name": "kaos-prd-create",
+      "type": "skill",
+      "version": "1.0.0",
+      "path": "plugins/kaos-prd-skills/skills/kaos-prd-create",
+      "entry": "SKILL.md",
+      "description": "Create a new KAOS PRD file with RAG-optimised structure and open a GitHub issue.",
+      "tags": [
+        "prd",
+        "product",
+        "requirements",
+        "kaos",
+        "knowledge-capture"
+      ],
+      "produces": {
+        "chunk_types": [
+          "architectural-decision",
+          "architectural-rationale",
+          "feature-requirement",
+          "constraint",
+          "acceptance-criterion",
+          "threat",
+          "open-question"
+        ],
+        "label": "PRD",
+        "output_path": "knowledge/prds/"
+      },
+      "consumes": {
+        "chunk_types": [],
+        "tools": [
+          "kaos:schema",
+          "kaos:knowledge"
+        ]
+      },
+      "dependencies": {}
+    },
+    {
+      "name": "kaos-prd-next",
+      "type": "skill",
+      "version": "1.0.0",
+      "path": "plugins/kaos-prd-skills/skills/kaos-prd-next",
+      "entry": "SKILL.md",
+      "description": "Identify the single highest-priority task to work on next for an active PRD.",
+      "tags": [
+        "prd",
+        "product",
+        "prioritisation",
+        "kaos"
+      ],
+      "produces": {
+        "chunk_types": [],
+        "label": "",
+        "output_path": ""
+      },
+      "consumes": {
+        "chunk_types": [
+          "feature-requirement",
+          "acceptance-criterion",
+          "constraint",
+          "threat",
+          "open-question"
+        ],
+        "tools": [
+          "kaos:list",
+          "kaos:knowledge"
+        ]
+      },
+      "dependencies": {
+        "skills": [
+          "kaos-prd-start@^1.0.0"
+        ]
+      }
+    },
+    {
+      "name": "kaos-prd-start",
+      "type": "skill",
+      "version": "1.0.0",
+      "path": "plugins/kaos-prd-skills/skills/kaos-prd-start",
+      "entry": "SKILL.md",
+      "description": "Validate PRD readiness, check platform state, and create the implementation branch.",
+      "tags": [
+        "prd",
+        "product",
+        "implementation",
+        "kaos"
+      ],
+      "produces": {
+        "chunk_types": [],
+        "label": "",
+        "output_path": ""
+      },
+      "consumes": {
+        "chunk_types": [
+          "architectural-decision",
+          "open-question",
+          "acceptance-criterion"
+        ],
+        "tools": [
+          "kaos:list",
+          "kaos:get",
+          "kaos:knowledge"
+        ]
+      },
+      "dependencies": {
+        "skills": [
+          "kaos-prd-create@^1.0.0"
+        ]
+      }
+    },
+    {
+      "name": "kaos-prd-update-decisions",
+      "type": "skill",
+      "version": "1.0.0",
+      "path": "plugins/kaos-prd-skills/skills/kaos-prd-update-decisions",
+      "entry": "SKILL.md",
+      "description": "Capture architectural decisions and design changes into the PRD during implementation.",
+      "tags": [
+        "prd",
+        "product",
+        "decisions",
+        "architecture",
+        "kaos",
+        "knowledge-capture"
+      ],
+      "produces": {
+        "chunk_types": [
+          "architectural-decision",
+          "architectural-rationale",
+          "constraint"
+        ],
+        "label": "PRD",
+        "output_path": "knowledge/prds/"
+      },
+      "consumes": {
+        "chunk_types": [
+          "architectural-decision",
+          "constraint",
+          "feature-requirement"
+        ],
+        "tools": [
+          "kaos:schema",
+          "kaos:knowledge"
+        ]
+      },
+      "dependencies": {
+        "skills": [
+          "kaos-prd-next@^1.0.0"
+        ]
+      }
+    },
+    {
+      "name": "kaos-prd-update-progress",
+      "type": "skill",
+      "version": "1.0.0",
+      "path": "plugins/kaos-prd-skills/skills/kaos-prd-update-progress",
+      "entry": "SKILL.md",
+      "description": "Update PRD acceptance criteria, threat, and open question statuses based on completed work.",
+      "tags": [
+        "prd",
+        "product",
+        "progress",
+        "verification",
+        "kaos",
+        "knowledge-capture"
+      ],
+      "produces": {
+        "chunk_types": [
+          "acceptance-criterion",
+          "threat"
+        ],
+        "label": "PRD",
+        "output_path": "knowledge/prds/"
+      },
+      "consumes": {
+        "chunk_types": [
+          "acceptance-criterion",
+          "threat",
+          "open-question"
+        ],
+        "tools": [
+          "kaos:list",
+          "kaos:get",
+          "kaos:status"
+        ]
+      },
+      "dependencies": {
+        "skills": [
+          "kaos-prd-next@^1.0.0"
+        ]
+      }
+    }
+  ]
+}

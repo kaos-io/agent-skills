@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../manifest.schema.json",
+  "name": "kaos-prd-update-progress",
+  "type": "skill",
+  "version": "1.0.0",
+  "entry": "SKILL.md",
+  "description": "Update PRD acceptance criteria, threat, and open question statuses based on completed work.",
+  "produces": {
+    "chunk_types": ["acceptance-criterion", "threat"],
+    "label": "PRD",
+    "output_path": "knowledge/prds/"
+  },
+  "consumes": {
+    "chunk_types": ["acceptance-criterion", "threat", "open-question"],
+    "tools": ["kaos:list", "kaos:get", "kaos:status"]
+  },
+  "dependencies": {
+    "skills": ["kaos-prd-next@^1.0.0"]
+  },
+  "tags": ["prd", "product", "progress", "verification", "kaos", "knowledge-capture"],
+  "author": "kaos-io",
+  "license": "Apache-2.0"
+}
