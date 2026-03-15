@@ -1,0 +1,43 @@
+name: Validate Manifests & Generate Index
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'agents/**/manifest.json'
+      - 'plugins/**/manifest.json'
+      - 'prompts/**/manifest.json'
+      - 'manifest.schema.json'
+      - 'scripts/generate-index.sh'
+  pull_request:
+    paths:
+      - 'agents/**/manifest.json'
+      - 'plugins/**/manifest.json'
+      - 'prompts/**/manifest.json'
+      - 'manifest.schema.json'
+      - 'scripts/generate-index.sh'
+
+jobs:
+  validate-and-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate manifests and generate index.json
+        run: ./scripts/generate-index.sh
+
+      - name: Verify index.json is valid JSON
+        run: jq . index.json > /dev/null
+
+      # Auto-commit updated index.json on push to main.
+      # index.json is auto-generated — do not edit manually.
+      - name: Update index.json if changed
+        if: github.event_name == 'push'
+        run: |
+          git diff --exit-code index.json || {
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add index.json
+            git commit -m "chore: regenerate index.json [skip ci]"
+            git push
+          }

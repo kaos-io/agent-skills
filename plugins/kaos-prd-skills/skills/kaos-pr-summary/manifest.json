@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../../manifest.schema.json",
+  "name": "kaos-pr-summary",
+  "type": "skill",
+  "version": "1.0.0",
+  "entry": "SKILL.md",
+  "description": "Generate a structured PR summary for KAOS platform changes with PRD alignment and knowledge capture.",
+  "produces": {
+    "chunk_types": [],
+    "label": "",
+    "output_path": ""
+  },
+  "consumes": {
+    "chunk_types": ["architectural-decision", "constraint", "acceptance-criterion"],
+    "tools": ["kaos:schema", "kaos:list", "kaos:validate"]
+  },
+  "dependencies": {},
+  "tags": ["pull-request", "kaos", "documentation", "knowledge-capture"],
+  "author": "kaos-io",
+  "license": "Apache-2.0"
+}

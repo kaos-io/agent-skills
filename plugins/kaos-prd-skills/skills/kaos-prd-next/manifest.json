@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../manifest.schema.json",
+  "name": "kaos-prd-next",
+  "type": "skill",
+  "version": "1.0.0",
+  "entry": "SKILL.md",
+  "description": "Identify the single highest-priority task to work on next for an active PRD.",
+  "produces": {
+    "chunk_types": [],
+    "label": "",
+    "output_path": ""
+  },
+  "consumes": {
+    "chunk_types": ["feature-requirement", "acceptance-criterion", "constraint", "threat", "open-question"],
+    "tools": ["kaos:list", "kaos:knowledge"]
+  },
+  "dependencies": {
+    "skills": ["kaos-prd-start@^1.0.0"]
+  },
+  "tags": ["prd", "product", "prioritisation", "kaos"],
+  "author": "kaos-io",
+  "license": "Apache-2.0"
+}

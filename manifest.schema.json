@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kaos-io/agent-skills/manifest.schema.json",
+  "title": "KAOS Artifact Manifest",
+  "description": "Schema for manifest.json files in the KAOS Agentic Artifact Registry. Every artifact exists to produce or feed structured knowledge into the KAOS RAG pipeline.",
+  "type": "object",
+  "required": ["name", "type", "version", "entry", "description"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Unique artifact identifier. Lowercase, hyphen-separated."
+    },
+    "type": {
+      "type": "string",
+      "enum": ["skill", "agent", "prompt"],
+      "description": "Artifact type. Determines the expected entry file format (SKILL.md, AGENT.md, PROMPT.md)."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version (MAJOR.MINOR.PATCH)."
+    },
+    "entry": {
+      "type": "string",
+      "description": "Entry file relative to the artifact directory."
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 256,
+      "description": "One-line description of what this artifact does."
+    },
+    "produces": {
+      "type": "object",
+      "properties": {
+        "chunk_types": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Knowledge chunk types this artifact generates for the RAG extraction pipeline (e.g. architectural-decision, constraint, acceptance-criterion)."
+        },
+        "label": {
+          "type": "string",
+          "description": "GitHub issue label that triggers the Argo Workflow extraction pipeline (e.g. PRD)."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Where structured output is written (e.g. knowledge/prds/)."
+        }
+      },
+      "additionalProperties": false,
+      "description": "What structured knowledge this artifact produces for the KAOS knowledge base. This is the core of the flywheel — skills and agents capture human decisions, the pipeline vectorizes them, future agents query them."
+    },
+    "consumes": {
+      "type": "object",
+      "properties": {
+        "chunk_types": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Knowledge chunk types this artifact queries from the RAG pipeline at runtime."
+        },
+        "tools": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "MCP tools this artifact calls (e.g. kaos:schema, kaos:knowledge, kaos:list)."
+        }
+      },
+      "additionalProperties": false,
+      "description": "What knowledge and tools this artifact needs at runtime."
+    },
+    "dependencies": {
+      "type": "object",
+      "properties": {
+        "skills": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Required skills (e.g. [\"kaos-prd-create@^1.0.0\"])."
+        },
+        "agents": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Required agent definitions."
+        },
+        "prompts": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Required prompt templates."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Dependencies on other artifacts in the registry."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Searchable tags for discovery."
+    },
+    "author": {
+      "type": "string",
+      "description": "Author or organisation name."
+    },
+    "license": {
+      "type": "string",
+      "description": "SPDX license identifier."
+    }
+  },
+  "additionalProperties": false
+}

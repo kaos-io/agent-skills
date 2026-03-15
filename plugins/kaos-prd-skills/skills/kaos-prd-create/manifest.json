@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../../manifest.schema.json",
+  "name": "kaos-prd-create",
+  "type": "skill",
+  "version": "1.0.0",
+  "entry": "SKILL.md",
+  "description": "Create a new KAOS PRD file with RAG-optimised structure and open a GitHub issue.",
+  "produces": {
+    "chunk_types": [
+      "architectural-decision",
+      "architectural-rationale",
+      "feature-requirement",
+      "constraint",
+      "acceptance-criterion",
+      "threat",
+      "open-question"
+    ],
+    "label": "PRD",
+    "output_path": "knowledge/prds/"
+  },
+  "consumes": {
+    "chunk_types": [],
+    "tools": ["kaos:schema", "kaos:knowledge"]
+  },
+  "dependencies": {},
+  "tags": ["prd", "product", "requirements", "kaos", "knowledge-capture"],
+  "author": "kaos-io",
+  "license": "Apache-2.0"
+}
