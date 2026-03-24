@@ -1,0 +1,25 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'If you just made a git commit, check whether the committed work relates to a PRD in knowledge/prds/. If it does, ask the user if they want to update the PRD — use /kaos-prd-update-progress for acceptance criteria or threat status changes, or /kaos-prd-update-decisions for architectural decisions made during implementation. Do not ask if the command was clearly unrelated to a commit (e.g. running tests, listing files, deploying).'"
+          }
+        ]
+      }
+    ],
+    "TaskCompleted": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'A task was just completed. If architectural decisions, design choices, or constraint changes were made during this work, ask the user if they want to capture them in the relevant PRD using /kaos-prd-update-decisions. If acceptance criteria were validated or threat mitigations confirmed, suggest /kaos-prd-update-progress instead.'"
+          }
+        ]
+      }
+    ]
+  }
+}
