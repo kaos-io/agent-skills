@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../manifest.schema.json",
+  "name": "kaos-prd-update-decisions",
+  "type": "skill",
+  "version": "1.0.0",
+  "entry": "SKILL.md",
+  "description": "Capture architectural decisions and design changes into the PRD during implementation.",
+  "produces": {
+    "chunk_types": ["architectural-decision", "architectural-rationale", "constraint"],
+    "label": "PRD",
+    "output_path": "knowledge/prds/"
+  },
+  "consumes": {
+    "chunk_types": ["architectural-decision", "constraint", "feature-requirement"],
+    "tools": ["kaos:schema", "kaos:knowledge"]
+  },
+  "dependencies": {
+    "skills": ["kaos-prd-next@^1.0.0"]
+  },
+  "tags": ["prd", "product", "decisions", "architecture", "kaos", "knowledge-capture"],
+  "author": "kaos-io",
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../manifest.schema.json",
+  "name": "kaos-prd-start",
+  "type": "skill",
+  "version": "1.0.0",
+  "entry": "SKILL.md",
+  "description": "Validate PRD readiness, check platform state, and create the implementation branch.",
+  "produces": {
+    "chunk_types": [],
+    "label": "",
+    "output_path": ""
+  },
+  "consumes": {
+    "chunk_types": ["architectural-decision", "open-question", "acceptance-criterion"],
+    "tools": ["kaos:list", "kaos:get", "kaos:knowledge"]
+  },
+  "dependencies": {
+    "skills": ["kaos-prd-create@^1.0.0"]
+  },
+  "tags": ["prd", "product", "implementation", "kaos"],
+  "author": "kaos-io",
+  "license": "Apache-2.0"
+}
