@@ -17,6 +17,9 @@ on:
       - 'manifest.schema.json'
       - 'scripts/generate-index.sh'
 
+permissions:
+  contents: write
+
 jobs:
   validate-and-index:
     runs-on: ubuntu-latest
