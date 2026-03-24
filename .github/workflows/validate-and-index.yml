@@ -9,6 +9,7 @@ on:
       - 'prompts/**/manifest.json'
       - 'manifest.schema.json'
       - 'scripts/generate-index.sh'
+      - '.github/workflows/validate-and-index.yml'
   pull_request:
     paths:
       - 'agents/**/manifest.json'
@@ -16,6 +17,7 @@ on:
       - 'prompts/**/manifest.json'
       - 'manifest.schema.json'
       - 'scripts/generate-index.sh'
+      - '.github/workflows/validate-and-index.yml'
 
 permissions:
   contents: write
