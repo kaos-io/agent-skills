@@ -11,7 +11,7 @@
       "name": "kaos-prd-skills",
       "source": "./plugins/kaos-prd-skills",
       "description": "Full KAOS PRD lifecycle — create, start, advance, track progress, capture decisions, and complete Product Requirements Documents. Includes automated PRD update reminders via hooks.",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "KubeCore"
       },
