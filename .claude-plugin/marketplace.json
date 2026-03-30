@@ -18,6 +18,18 @@
       "homepage": "https://kaos.kubecore.eu",
       "category": "productivity",
       "tags": ["prd", "product", "kaos", "kubernetes", "gitops"]
+    },
+    {
+      "name": "kaos-kubeapp-skills",
+      "source": "./plugins/kaos-kubeapp-skills",
+      "description": "KubeApp lifecycle management — create, read, update, delete, and deep-verify KubeApps with full CI/CD pipeline verification.",
+      "version": "1.0.0",
+      "author": {
+        "name": "KubeCore"
+      },
+      "homepage": "https://kaos.kubecore.eu",
+      "category": "infrastructure",
+      "tags": ["kubeapp", "application", "crud", "deploy", "verify", "kaos"]
     }
   ]
 }
