@@ -1,8 +1,47 @@
 {
   "name": "kaos-agent-skills",
   "description": "Official agentic artifact registry for the KAOS platform.",
-  "generated_at": "2026-03-24T20:28:16Z",
+  "generated_at": "2026-03-30T10:04:00Z",
   "artifacts": [
+    {
+      "name": "kubeapp-crud",
+      "type": "skill",
+      "version": "1.0.0",
+      "path": "plugins/kaos-kubeapp-skills/skills/kubeapp-crud",
+      "entry": "SKILL.md",
+      "description": "Full lifecycle management of KubeApps — create, read, update, delete, and deep-verify all provisioned resources.",
+      "tags": [
+        "kubeapp",
+        "application",
+        "crud",
+        "deploy",
+        "verify",
+        "kaos"
+      ],
+      "produces": {
+        "chunk_types": [],
+        "label": "",
+        "output_path": ""
+      },
+      "consumes": {
+        "chunk_types": [
+          "kubeapp",
+          "kubeproject",
+          "kubeapptemplate"
+        ],
+        "tools": [
+          "kaos:list",
+          "kaos:get",
+          "kaos:create",
+          "kaos:delete",
+          "kaos:status",
+          "kaos:schema"
+        ]
+      },
+      "dependencies": {
+        "skills": []
+      }
+    },
     {
       "name": "kaos-pr-summary",
       "type": "skill",
