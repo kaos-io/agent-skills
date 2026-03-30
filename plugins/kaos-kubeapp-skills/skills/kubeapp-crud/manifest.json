@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../manifest.schema.json",
+  "name": "kubeapp-crud",
+  "type": "skill",
+  "version": "1.0.0",
+  "entry": "SKILL.md",
+  "description": "Full lifecycle management of KubeApps — create, read, update, delete, and deep-verify all provisioned resources.",
+  "produces": {
+    "chunk_types": [],
+    "label": "",
+    "output_path": ""
+  },
+  "consumes": {
+    "chunk_types": ["kubeapp", "kubeproject", "kubeapptemplate"],
+    "tools": ["kaos:list", "kaos:get", "kaos:create", "kaos:delete", "kaos:status", "kaos:schema"]
+  },
+  "dependencies": {
+    "skills": []
+  },
+  "tags": ["kubeapp", "application", "crud", "deploy", "verify", "kaos"],
+  "author": "kaos-io",
+  "license": "Apache-2.0"
+}
