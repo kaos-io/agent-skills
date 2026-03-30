@@ -1,0 +1,11 @@
+{
+  "name": "kaos-kubeapp-skills",
+  "version": "1.0.0",
+  "description": "KubeApp lifecycle management skills for the KAOS platform. Create, read, update, delete, and deep-verify KubeApps with full CI/CD pipeline verification.",
+  "author": {
+    "name": "KubeCore",
+    "email": "hello@kaos.kubecore.eu"
+  },
+  "homepage": "https://kaos.kubecore.eu",
+  "license": "Apache-2.0"
+}
