@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../manifest.schema.json",
+  "name": "kaos-plan-and-delegate",
+  "type": "skill",
+  "version": "1.0.0",
+  "entry": "SKILL.md",
+  "description": "Streamlined plan-then-delegate workflow. Generates plans with acceptance criteria and no assumptions, waits for approval, then auto-spawns the right agent type based on work domain. All agents default to Sonnet 4.6.",
+  "produces": {
+    "chunk_types": [],
+    "label": "",
+    "output_path": ""
+  },
+  "consumes": {
+    "chunk_types": [],
+    "tools": ["kaos:knowledge", "kaos:schema"]
+  },
+  "dependencies": {
+    "skills": []
+  },
+  "tags": ["plan", "delegate", "workflow", "agent", "kaos"],
+  "author": "kaos-io",
+  "license": "Apache-2.0"
+}

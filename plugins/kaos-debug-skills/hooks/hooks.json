@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'If the user just pasted an error for the 3rd+ time on the same issue, suggest /kaos-debug for structured root-cause analysis instead of continuing ad-hoc fixes.'"
+          }
+        ]
+      }
+    ]
+  }
+}

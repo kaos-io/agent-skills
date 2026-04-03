@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../manifest.schema.json",
+  "name": "kaos-debug",
+  "type": "skill",
+  "version": "1.0.0",
+  "entry": "SKILL.md",
+  "description": "Structured debugging skill that breaks the 3-5 iteration debug loop. Auto-gathers platform state, enforces root cause analysis before fixes, tracks attempts, and requires verification evidence.",
+  "produces": {
+    "chunk_types": [],
+    "label": "",
+    "output_path": ""
+  },
+  "consumes": {
+    "chunk_types": ["kubeapp", "kubeproject", "kubepool", "kubeorg"],
+    "tools": ["kaos:status", "kaos:diagnose", "kaos:get", "kaos:list", "kaos:knowledge"]
+  },
+  "dependencies": {
+    "skills": []
+  },
+  "tags": ["debug", "troubleshoot", "root-cause", "rca", "kaos"],
+  "author": "kaos-io",
+  "license": "Apache-2.0"
+}
