@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../manifest.schema.json",
+  "name": "kaos-prd-sprint",
+  "type": "skill",
+  "version": "1.0.0",
+  "entry": "SKILL.md",
+  "description": "PRD workflow orchestrator that replaces 4 manual skill invocations with a single command. Picks next AC, generates plan, delegates to agent, verifies, and auto-updates PRD progress.",
+  "produces": {
+    "chunk_types": [],
+    "label": "",
+    "output_path": ""
+  },
+  "consumes": {
+    "chunk_types": ["feature-requirement", "acceptance-criterion", "constraint", "threat", "open-question"],
+    "tools": ["kaos:list", "kaos:get", "kaos:status", "kaos:knowledge"]
+  },
+  "dependencies": {
+    "skills": ["kaos-prd-start@^1.0.0", "kaos-prd-next@^1.0.0", "kaos-prd-update-progress@^1.0.0"]
+  },
+  "tags": ["prd", "sprint", "orchestration", "workflow", "kaos"],
+  "author": "kaos-io",
+  "license": "Apache-2.0"
+}

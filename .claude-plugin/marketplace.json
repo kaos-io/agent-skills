@@ -10,14 +10,26 @@
     {
       "name": "kaos-prd-skills",
       "source": "./plugins/kaos-prd-skills",
-      "description": "Full KAOS PRD lifecycle — create, start, advance, track progress, capture decisions, and complete Product Requirements Documents. Includes automated PRD update reminders via hooks.",
-      "version": "1.2.0",
+      "description": "Full KAOS PRD lifecycle — create, start, advance, track progress, capture decisions, and complete Product Requirements Documents. Includes sprint orchestrator and automated PRD update reminders via hooks.",
+      "version": "1.3.0",
       "author": {
         "name": "KubeCore"
       },
       "homepage": "https://kaos.kubecore.eu",
       "category": "productivity",
       "tags": ["prd", "product", "kaos", "kubernetes", "gitops"]
+    },
+    {
+      "name": "kaos-debug-skills",
+      "source": "./plugins/kaos-debug-skills",
+      "description": "KAOS platform debugging, composition troubleshooting, and plan-and-delegate workflow skills. Structured RCA, Crossplane composition validation, and streamlined agent delegation.",
+      "version": "1.0.0",
+      "author": {
+        "name": "KubeCore"
+      },
+      "homepage": "https://kaos.kubecore.eu",
+      "category": "productivity",
+      "tags": ["debug", "troubleshoot", "composition", "crossplane", "workflow", "kaos"]
     },
     {
       "name": "kaos-kubeapp-skills",

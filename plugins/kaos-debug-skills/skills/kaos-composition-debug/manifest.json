@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../manifest.schema.json",
+  "name": "kaos-composition-debug",
+  "type": "skill",
+  "version": "1.0.0",
+  "entry": "SKILL.md",
+  "description": "Crossplane composition-specific debugging. Validates composition-XRD alignment, traces patch chains, checks runtime providers, compares rendered vs expected manifests, and verifies RBAC/ProviderConfig.",
+  "produces": {
+    "chunk_types": [],
+    "label": "",
+    "output_path": ""
+  },
+  "consumes": {
+    "chunk_types": ["kubepool", "kubeorg", "kubeproject", "kubeapp"],
+    "tools": ["kaos:get", "kaos:list", "kaos:diagnose", "kaos:schema", "kaos:knowledge"]
+  },
+  "dependencies": {
+    "skills": []
+  },
+  "tags": ["composition", "crossplane", "xrd", "debug", "patch", "kaos"],
+  "author": "kaos-io",
+  "license": "Apache-2.0"
+}

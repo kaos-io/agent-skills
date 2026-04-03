@@ -1,0 +1,11 @@
+{
+  "name": "kaos-debug-skills",
+  "version": "1.0.0",
+  "description": "KAOS platform debugging, composition troubleshooting, and plan-and-delegate workflow skills. Breaks debug loops with structured RCA, validates Crossplane compositions, and streamlines plan→delegate workflows.",
+  "author": {
+    "name": "KubeCore",
+    "email": "hello@kaos.kubecore.eu"
+  },
+  "homepage": "https://kaos.kubecore.eu",
+  "license": "Apache-2.0"
+}
