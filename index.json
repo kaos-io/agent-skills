@@ -1,8 +1,115 @@
 {
   "name": "kaos-agent-skills",
   "description": "Official agentic artifact registry for the KAOS platform.",
-  "generated_at": "2026-03-30T10:04:00Z",
+  "generated_at": "2026-04-03T21:56:46Z",
   "artifacts": [
+    {
+      "name": "kaos-composition-debug",
+      "type": "skill",
+      "version": "1.0.0",
+      "path": "plugins/kaos-debug-skills/skills/kaos-composition-debug",
+      "entry": "SKILL.md",
+      "description": "Crossplane composition-specific debugging. Validates composition-XRD alignment, traces patch chains, checks runtime providers, compares rendered vs expected manifests, and verifies RBAC/ProviderConfig.",
+      "tags": [
+        "composition",
+        "crossplane",
+        "xrd",
+        "debug",
+        "patch",
+        "kaos"
+      ],
+      "produces": {
+        "chunk_types": [],
+        "label": "",
+        "output_path": ""
+      },
+      "consumes": {
+        "chunk_types": [
+          "kubepool",
+          "kubeorg",
+          "kubeproject",
+          "kubeapp"
+        ],
+        "tools": [
+          "kaos:get",
+          "kaos:list",
+          "kaos:diagnose",
+          "kaos:schema",
+          "kaos:knowledge"
+        ]
+      },
+      "dependencies": {
+        "skills": []
+      }
+    },
+    {
+      "name": "kaos-debug",
+      "type": "skill",
+      "version": "1.0.0",
+      "path": "plugins/kaos-debug-skills/skills/kaos-debug",
+      "entry": "SKILL.md",
+      "description": "Structured debugging skill that breaks the 3-5 iteration debug loop. Auto-gathers platform state, enforces root cause analysis before fixes, tracks attempts, and requires verification evidence.",
+      "tags": [
+        "debug",
+        "troubleshoot",
+        "root-cause",
+        "rca",
+        "kaos"
+      ],
+      "produces": {
+        "chunk_types": [],
+        "label": "",
+        "output_path": ""
+      },
+      "consumes": {
+        "chunk_types": [
+          "kubeapp",
+          "kubeproject",
+          "kubepool",
+          "kubeorg"
+        ],
+        "tools": [
+          "kaos:status",
+          "kaos:diagnose",
+          "kaos:get",
+          "kaos:list",
+          "kaos:knowledge"
+        ]
+      },
+      "dependencies": {
+        "skills": []
+      }
+    },
+    {
+      "name": "kaos-plan-and-delegate",
+      "type": "skill",
+      "version": "1.0.0",
+      "path": "plugins/kaos-debug-skills/skills/kaos-plan-and-delegate",
+      "entry": "SKILL.md",
+      "description": "Streamlined plan-then-delegate workflow. Generates plans with acceptance criteria and no assumptions, waits for approval, then auto-spawns the right agent type based on work domain. All agents default to Sonnet 4.6.",
+      "tags": [
+        "plan",
+        "delegate",
+        "workflow",
+        "agent",
+        "kaos"
+      ],
+      "produces": {
+        "chunk_types": [],
+        "label": "",
+        "output_path": ""
+      },
+      "consumes": {
+        "chunk_types": [],
+        "tools": [
+          "kaos:knowledge",
+          "kaos:schema"
+        ]
+      },
+      "dependencies": {
+        "skills": []
+      }
+    },
     {
       "name": "kubeapp-crud",
       "type": "skill",
@@ -182,6 +289,48 @@
       "dependencies": {
         "skills": [
           "kaos-prd-start@^1.0.0"
+        ]
+      }
+    },
+    {
+      "name": "kaos-prd-sprint",
+      "type": "skill",
+      "version": "1.0.0",
+      "path": "plugins/kaos-prd-skills/skills/kaos-prd-sprint",
+      "entry": "SKILL.md",
+      "description": "PRD workflow orchestrator that replaces 4 manual skill invocations with a single command. Picks next AC, generates plan, delegates to agent, verifies, and auto-updates PRD progress.",
+      "tags": [
+        "prd",
+        "sprint",
+        "orchestration",
+        "workflow",
+        "kaos"
+      ],
+      "produces": {
+        "chunk_types": [],
+        "label": "",
+        "output_path": ""
+      },
+      "consumes": {
+        "chunk_types": [
+          "feature-requirement",
+          "acceptance-criterion",
+          "constraint",
+          "threat",
+          "open-question"
+        ],
+        "tools": [
+          "kaos:list",
+          "kaos:get",
+          "kaos:status",
+          "kaos:knowledge"
+        ]
+      },
+      "dependencies": {
+        "skills": [
+          "kaos-prd-start@^1.0.0",
+          "kaos-prd-next@^1.0.0",
+          "kaos-prd-update-progress@^1.0.0"
         ]
       }
     },
