@@ -1,0 +1,169 @@
+#!/usr/bin/env python3
+"""Keep every KAOS session on the PRD framework, across compaction and resume.
+
+CLI (on the Bash PATH through the plugin's bin/; uses $CLAUDE_CODE_SESSION_ID):
+  kaos-prd bind <prd-ref> <prd-file-or-url>   bind this session to a PRD
+  kaos-prd at <AC-NN|F-NN> <step> [note...]    record where the loop is
+  kaos-prd status | unbind
+
+Hook mode (`kaos-prd hook`, hook JSON on stdin). Acts only in repositories whose
+origin is github.com/novelcore/* or github.com/kaos-io/*, wherever they are on disk:
+  SessionStart   startup/clear: the framework rules; compact/resume: the rules plus
+                 the bound PRD and the loop position
+  PreToolUse     Agent: refuse work agents whose brief lacks the PRD and the AC
+  PostToolUse    Bash: after git commit / gh pr merge, update the PRD progress
+
+Fails open on its own errors: a broken guard must never wedge a session.
+"""
+import datetime
+import json
+import os
+import re
+import subprocess
+import sys
+
+STATE = os.path.expanduser("~/.claude/kaos-prd/sessions")
+ORGS = re.compile(r"github\.com[:/](novelcore|kaos-io)/", re.I)
+READ_ONLY = {"Explore", "Plan", "claude-code-guide", "statusline-setup"}
+STEPS = "pick, plan, delegated, verified, progress-updated"
+LOOP = ("pick the AC (/kaos-prd-next) -> plan -> delegate (brief names the PRD and the AC) -> verify with evidence"
+        " -> /kaos-prd-update-progress (design decisions: /kaos-prd-update-decisions) -> next AC")
+RULES = (
+    "KAOS PRD framework (kaos-prd-skills) applies here, to the orchestrator and to every agent. "
+    "One PRD per session: bind it first with `kaos-prd bind <prd-ref> <prd-file-or-issue-url>`. "
+    f"Loop: {LOOP}; record each step with `kaos-prd at <AC-NN> <{STEPS.replace(', ', '|')}> [note]`. "
+    "Agent briefs name the PRD and the AC or feature (AC-NN / F-NN); a hook refuses other work agents, and work "
+    "outside any PRD starts the brief with `no-prd: <reason>`. Agents report per AC with evidence; only the "
+    "orchestrator writes the PRD. The PRD file is the handoff: state lives there, not in the conversation.")
+
+
+def now():
+    return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
+
+
+def path(sid):
+    return os.path.join(STATE, re.sub(r"[^\w-]", "", sid) + ".json")
+
+
+def load(sid):
+    try:
+        with open(path(sid)) as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return None
+
+
+def save(sid, st):
+    os.makedirs(STATE, exist_ok=True)
+    with open(path(sid), "w") as f:
+        json.dump(st, f, indent=1)
+
+
+def in_scope(cwd):
+    try:
+        url = subprocess.run(["git", "-C", cwd or ".", "config", "--get", "remote.origin.url"],
+                             capture_output=True, text=True, timeout=3).stdout
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return bool(ORGS.search(url))
+
+
+def prd_num(ref):
+    m = re.search(r"(\d+)\s*$", ref)
+    return m.group(1) if m else ref
+
+
+def summary(st):
+    at = st.get("at")
+    pos = (f"{at['ac']} at step '{at['step']}'" + (f" ({at['note']})" if at.get("note") else "") + f", {at['ts']}"
+           if at else "no AC recorded yet: pick the next AC first")
+    return f"PRD {st['prd']} ({st['file']}). Position: {pos}."
+
+
+def emit(event, **kw):
+    print(json.dumps({"hookSpecificOutput": {"hookEventName": event, **kw}}))
+
+
+# ---------------------------------------------------------------- hooks
+def hook():
+    try:
+        h = json.load(sys.stdin)
+    except ValueError:
+        return
+    ev, sid, cwd = h.get("hook_event_name"), h.get("session_id", ""), h.get("cwd")
+    st = load(sid) if sid else None
+
+    if ev == "SessionStart" and in_scope(cwd):
+        ctx = RULES
+        if st and h.get("source") in ("compact", "resume"):
+            ctx += (" This session is bound to " + summary(st) + " Compaction or resume does not end the PRD work:"
+                    " before anything else, re-read the PRD's acceptance criteria and progress log, then continue"
+                    " the loop from the recorded step.")
+        emit(ev, additionalContext=ctx)
+
+    elif ev == "PreToolUse" and h.get("tool_name") in ("Agent", "Task"):
+        ti = h.get("tool_input") or {}
+        if ti.get("subagent_type", "general-purpose") in READ_ONLY:
+            return
+        brief = (ti.get("prompt") or "") + " " + (ti.get("description") or "")
+        if re.match(r"\s*no-prd:\s*\S", brief, re.I) or not in_scope(cwd):
+            return
+        has_ac = re.search(r"\b(AC|F|T)-\d+", brief)
+        if st:
+            ok = has_ac and re.search(r"(?<!\d)" + re.escape(prd_num(st["prd"])) + r"(?!\d)", brief)
+            want = f"the bound PRD ({st['prd']}) and the AC or feature it serves (AC-NN / F-NN)"
+        else:
+            ok = has_ac and re.search(r"(?i)\bPRD[\s#-]*\d+|\b[\w.-]+#\d{2,}", brief)
+            want = "the PRD (e.g. kaos#1911) and the AC or feature it serves (AC-NN / F-NN)"
+        if not ok:
+            emit(ev, permissionDecision="deny", permissionDecisionReason=(
+                f"KAOS PRD framework: an agent brief must name {want}, and the agent reports back per AC with"
+                " evidence; the orchestrator alone updates the PRD. Add them to the prompt, or start the prompt with"
+                " 'no-prd: <reason>' for work outside any PRD." +
+                ("" if st else " Orchestrators bind first: `kaos-prd bind <prd-ref> <prd-file>`.")))
+
+    elif ev == "PostToolUse" and h.get("tool_name") == "Bash" and st:
+        cmd = (h.get("tool_input") or {}).get("command", "")
+        if re.search(r"\bgit\b[^|;&\n]*\bcommit\b|\bgh\s+pr\s+merge\b", cmd) and in_scope(cwd):
+            emit(ev, additionalContext=(
+                f"KAOS PRD framework ({st['prd']}): if that commit or merge advances or proves an AC, update the PRD"
+                " now with /kaos-prd-update-progress (decisions: /kaos-prd-update-decisions) and record the position"
+                " with `kaos-prd at <AC> <step>`. A subagent reports it to the orchestrator instead."))
+
+
+# ---------------------------------------------------------------- CLI
+def cli(argv):
+    sid = os.environ.get("CLAUDE_CODE_SESSION_ID")
+    if not sid:
+        sys.exit("kaos-prd: run this from a Claude Code session (CLAUDE_CODE_SESSION_ID is not set)")
+    st = load(sid)
+    cmd = argv[0] if argv else "status"
+    if cmd == "bind" and len(argv) == 3:
+        f = argv[2] if re.match(r"https?://", argv[2]) else os.path.abspath(argv[2])
+        st = {"prd": argv[1], "file": f, "cwd": os.getcwd(), "bound": now(), "at": None, "log": []}
+        save(sid, st)
+        print("bound: " + summary(st) + f"\nLoop: {LOOP}")
+    elif cmd == "at" and len(argv) >= 3 and st:
+        st["at"] = {"ac": argv[1], "step": argv[2], "note": " ".join(argv[3:]), "ts": now()}
+        st["log"] = (st.get("log") or [])[-9:] + [st["at"]]
+        save(sid, st)
+        print(summary(st))
+    elif cmd == "unbind":
+        if st:
+            os.remove(path(sid))
+        print("unbound")
+    elif cmd == "status":
+        print(summary(st) if st else "not bound (kaos-prd bind <prd-ref> <prd-file>)")
+    else:
+        sys.exit("usage: kaos-prd bind <prd-ref> <prd-file> | at <AC-NN> <step> [note] | status | unbind\n"
+                 f"steps: {STEPS}" + ("\nnot bound yet: bind first" if cmd == "at" and not st else ""))
+
+
+if __name__ == "__main__":
+    if sys.argv[1:2] == ["hook"]:
+        try:
+            hook()
+        except Exception:  # fail open
+            pass
+    else:
+        cli(sys.argv[1:])

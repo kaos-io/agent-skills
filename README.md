@@ -104,6 +104,18 @@ The `manifest.json` for each skill declares exactly which `chunk_types` it produ
 /plugin install kaos-prd-skills@kaos-agent-skills
 ```
 
+### What the plugin enforces (Claude Code)
+
+In any repository whose `origin` is `github.com/novelcore/*` or `github.com/kaos-io/*`, wherever it is on disk:
+
+- **Session start:** the framework rules are added to the session.
+- **One PRD per session:** the orchestrator binds it with `kaos-prd bind <prd-ref> <prd-file-or-issue-url>` and records each step with `kaos-prd at <AC-NN> <pick|plan|delegated|verified|progress-updated> [note]`. The `kaos-prd` command comes with the plugin.
+- **After compaction or resume:** the bound PRD and the recorded position are restored, and the session continues the loop from there.
+- **Agents:** a work agent whose brief does not name the PRD and the AC or feature (`AC-NN` / `F-NN`) is refused. Work outside any PRD starts the brief with `no-prd: <reason>`. Read-only agents (Explore, Plan) are not checked.
+- **After `git commit` or `gh pr merge`:** the session is told to update the PRD progress.
+
+State is kept per session in `~/.claude/kaos-prd/sessions/`. Other repositories are not affected.
+
 ### Manual
 
 ```bash
